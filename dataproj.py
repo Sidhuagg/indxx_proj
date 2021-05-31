@@ -32,7 +32,7 @@ class Command(BaseCommand):
         ad = json.dumps(airdata1,indent=2)
         tdata.objects.bulk_create(lst1)
         return ad
-        tdata.objects.bulk_create(lst1)
+   
         """with open("air.txt", "a") as file:
 
             file.write(airdata)"""
