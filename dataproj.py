@@ -15,24 +15,20 @@ class Command(BaseCommand):
         #for a in range(0,1578,10):
         a = True
         offno = 0
-        lst1=[]
+        lst2=[]
+        dict1={}
         while a == True:
             api_key = "579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b"
             url = "https://api.data.gov.in/resource/3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69?api-key={}&format=json&offset={}&limit=10".format(api_key,offno)
             response = requests.get(url)
             data = response.text
             a1=json.loads(data)
-            for x in a1['records']:
-                lst1.append(x)
+            for ele in a1['records']:
+                dict1['poll']=(ele["pollutant_min"],ele["pollutant_max"],ele["pollutant_avg"])
+                dict1['location']=(ele["state"],ele["city"],ele["station"])
+                lst2.append(dict1)
             if a1["count"] < 10:
                 a= False
             offno += 10
-        airdata1 = json.loads(data)
-        airdata1['records']=lst1
-        ad = json.dumps(airdata1,indent=2)
-        tdata.objects.bulk_create(lst1)
-        return ad
-   
-        """with open("air.txt", "a") as file:
-
-            file.write(airdata)"""
+        airx = json.dumps(lst2, indent=1)
+        return airx
